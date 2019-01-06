@@ -5,6 +5,7 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException{
+        //Exp_GMED.run();
         Exp_MultiGridClassification.run();
     }
 }

@@ -6,9 +6,9 @@ package struct;
 public class GridMatrix
 {
     public int[][] matrix;
+    int label;
     int m;
     int n;
-    int label;
     int T;
 
     public GridMatrix(int m, int n, int label)
@@ -38,6 +38,11 @@ public class GridMatrix
 
             matrix[i][j]++;
         }
+    }
+
+    public int getLabel()
+    {
+        return this.label;
     }
 
     public void print()

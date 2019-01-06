@@ -24,8 +24,6 @@ public class Similarity {
 
     public static double GMDTW(GridMatrix m1, GridMatrix m2)
     {
-        double sum = 0;
-
         int[][] matrix1 = m1.matrix;
         int[][] matrix2 = m2.matrix;
 
