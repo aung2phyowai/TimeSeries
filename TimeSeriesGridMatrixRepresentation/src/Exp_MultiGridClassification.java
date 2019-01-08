@@ -23,7 +23,7 @@ public class Exp_MultiGridClassification {
 
         for (File file : files) {
             //System.out.println(file.getName()); //print file name
-            if (!file.getName().equals("Lighting2")) continue;
+            if (!file.getName().equals("synthetic_control")) continue;
 
             fileName = dirName + "/" + file.getName() + "/" + file.getName();
             File fileTRAIN =new File(fileName + "_TRAIN.csv");

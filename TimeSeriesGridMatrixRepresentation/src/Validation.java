@@ -22,6 +22,7 @@ public class Validation {
             else if(distanceMeasure.equals("GMDTW"))
                 predictLabel = searchByGMDTW(trainMatrices, query);
 
+            //System.out.println("predictLabel : " + predictLabel + " realLabel:" + query.getLabel());
             if(predictLabel != query.getLabel())
                 errorCnt++;
         }

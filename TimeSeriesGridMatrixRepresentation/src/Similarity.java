@@ -33,7 +33,7 @@ public class Similarity {
         {
             for (int j=0; j<distanceMarix[i].length; j++)
             {
-                int d = ED(matrix1[i], matrix2[j]);
+                double d = ED(matrix1[i], matrix2[j]);
                 if(i==0 && j==0)
                     distanceMarix[i][j] = d;
                 else if(i==0)
@@ -48,7 +48,7 @@ public class Similarity {
         return distanceMarix[matrix1.length-1][matrix2.length-1];
     }
 
-    public static int ED(int[] a, int[] b)
+    public static double ED(int[] a, int[] b)
     {
         int sum = 0;
         for(int i=0; i<a.length; i++)
@@ -56,6 +56,6 @@ public class Similarity {
             sum += Math.pow(a[i]-b[i], 2);
         }
 
-        return sum;
+        return Math.sqrt(sum);
     }
 }

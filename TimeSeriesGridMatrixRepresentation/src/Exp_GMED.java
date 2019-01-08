@@ -4,7 +4,9 @@ import struct.PointTra;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by jun on 2019-01-06.
@@ -19,8 +21,11 @@ public class Exp_GMED {
         File[] files = dir.listFiles();
 
         for (File file : files) {
-            //System.out.println(file.getName()); //print file name
-            if (!file.getName().equals("Lighting2")) continue;
+            String[] fileList = {"synthetic_control", "Gun_Point", "CBF", "FaceAll", "OSULeaf", "SwedishLeaf", "50words", "Trace", "Two_Patterns", "Wafer", "FaceFour", "Lighting2", "Lighting7", "ECG200", "Adiac", "yoga", "FISH", "Plane", "Car", "Beef", "Coffee", "OliveOil"};
+            List<String> list = Arrays.asList(fileList);
+            //if(!list.contains(file.getName())) continue;
+            if (!file.getName().equals("SwedishLeaf")) continue;
+            System.out.println(file.getName());
 
             fileName = dirName + "/" + file.getName() + "/" + file.getName();
             File fileTRAIN =new File(fileName + "_TRAIN.csv");
@@ -36,14 +41,24 @@ public class Exp_GMED {
             trainOrg = Tool.minmaxNormalize(trainOrg); //conduct min_max normalization
             testOrg = Tool.minmaxNormalize(testOrg); //conduct min_max normalization
 
-            Grid gm = new Grid(13, 25);
-            //Grid gm = new Grid();
-            //gm.train(trainOrg);
+            Grid gm = new Grid(15, 30);
+
             System.out.println("m : " + gm.m + " n : " + gm.n);
             GridMatrix[] trainMatrices = gm.dataset2Matrices(trainOrg);
             GridMatrix[] testMatrices = gm.dataset2Matrices(testOrg);
             double errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMED");
+            System.out.println("GMED Error_Rate : " + errorRate);
+            errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMDTW");
+            System.out.println("GMDTW Error_Rate : " + errorRate);
+
+            gm.train(trainOrg);
+
+            System.out.println("m : " + gm.m + " n : " + gm.n);
+            trainMatrices = gm.dataset2Matrices(trainOrg);
+            testMatrices = gm.dataset2Matrices(testOrg);
+            errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMDTW");
             System.out.println("Error_Rate : " + errorRate);
+
         }
     }
 }
