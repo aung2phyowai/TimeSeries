@@ -2,15 +2,13 @@ import struct.GridMatrix;
 import struct.Point;
 import struct.PointTra;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+
 
 /**
  * Created by jun on 2019-01-07.
+ * Toy Example of Similarity measure for time series data classification using grid representation and matrix distance
  */
 public class Toy_Sample {
     public static void run() throws IOException

@@ -22,8 +22,11 @@ public class Grid {
     public Grid()
     {
         Random random = new Random();
-        this.m = 5+random.nextInt(35);
-        this.n = 5+random.nextInt(30);
+        //this.m = 1+random.nextInt(39);
+        //this.n = 1+random.nextInt(34);
+
+        this.m = 1+random.nextInt(79);
+        this.n = 1+random.nextInt(69);
     }
 
     public void train(ArrayList<PointTra> trainOrg)
@@ -110,7 +113,7 @@ public class Grid {
 
     public GridMatrix ts2Matrix(PointTra ts)
     {
-        GridMatrix gm = new GridMatrix(m, n, ts.getCla());
+        GridMatrix gm = new GridMatrix(this.m, this.n, ts.getCla());
         gm.setTimeSeries(ts);
         return gm;
     }

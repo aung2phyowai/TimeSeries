@@ -22,8 +22,9 @@ public class Exp_MultiGridClassification {
         File[] files = dir.listFiles();
 
         for (File file : files) {
+            String[] fileList = {"synthetic_control", "Gun_Point", "CBF", "FaceAll", "OSULeaf", "SwedishLeaf", "50words", "Trace", "Two_Patterns", "wafer", "FaceFour", "Lighting2", "Lighting7", "ECG200", "Adiac", "yoga", "FISH", "Plane", "Car", "Beef", "Coffee", "OliveOil"};
             //System.out.println(file.getName()); //print file name
-            if (!file.getName().equals("synthetic_control")) continue;
+            if (!file.getName().equals("ECG200")) continue;
 
             fileName = dirName + "/" + file.getName() + "/" + file.getName();
             File fileTRAIN =new File(fileName + "_TRAIN.csv");
@@ -39,7 +40,7 @@ public class Exp_MultiGridClassification {
             trainOrg = Tool.minmaxNormalize(trainOrg); //conduct min_max normalization
             testOrg = Tool.minmaxNormalize(testOrg); //conduct min_max normalization
 
-            int m = 30; //number of grids
+            int m = 35; //number of grids
             Grid[] grids = new Grid[m];
             //double[][][] point_table = new double[testOrg.size()][m][CLASS_NUM];
 
@@ -50,8 +51,7 @@ public class Exp_MultiGridClassification {
                 grids[g_idx] = grid ;
             }
 
-            //conduct 1-NN classification and get error rate
-
+            //conduct 1-NN classification and get error rate by GMED
             int predictCount = 0;
             int errorCount = 0;
             for(int q_idx=0; q_idx<testOrg.size(); q_idx++)
@@ -87,7 +87,47 @@ public class Exp_MultiGridClassification {
                 if(predictLabel != testOrg.get(q_idx).getCla())
                     errorCount++;
             }
-            System.out.println("Error rate : " + (double)errorCount/predictCount);
+            System.out.println("MultiGrid GMED Error rate : " + (double)errorCount/predictCount);
+
+            /*
+            //conduct 1-NN classification and get error rate by GMDTW
+            predictCount = 0;
+            errorCount = 0;
+            for(int q_idx=0; q_idx<testOrg.size(); q_idx++)
+            {
+                Map<Integer, Double> pointDict = new HashMap<Integer, Double>();
+
+                for(int g_idx=0; g_idx<m; g_idx++)
+                {
+                    Grid grid = grids[g_idx];
+                    GridMatrix queryGridMatrix = grid.ts2Matrix(testOrg.get(q_idx));
+
+                    ArrayList<Integer> predictLabel = Validation.searchListByGMDTW(grid.getTrainMatrices(), queryGridMatrix);
+
+                    for(int label: predictLabel)
+                    {
+                        double point = 1.0/predictLabel.size();
+                        pointDict.put(label, pointDict.getOrDefault(label, 0d) + point);
+                    }
+                }
+
+                double maxPoint = Double.MIN_VALUE;
+                int predictLabel = -1;
+                for(Integer label: pointDict.keySet())
+                {
+                    double point = pointDict.getOrDefault(label, 0d);
+                    if(maxPoint < point)
+                    {
+                        maxPoint = point;
+                        predictLabel = label;
+                    }
+                }
+                predictCount++;
+                if(predictLabel != testOrg.get(q_idx).getCla())
+                    errorCount++;
+            }
+            System.out.println("MultiGrid GMDTW Error rate : " + (double)errorCount/predictCount);
+            */
         }
     }
 }

@@ -30,6 +30,10 @@ public class Validation {
         return errorCnt/queryCnt;
     }
 
+    /*
+    The leave-one-out cross-validation(LOOCV) method is used to search for the best parameters m and n
+    only the GMED measure is used to search suitable parameters(m,n) -> GMED measure is faster than the GMDTW
+     */
     public static double LOOCV(GridMatrix[] trainMatrices)
     {
         double queryCnt = 0;
@@ -43,14 +47,16 @@ public class Validation {
 
             for(int idx=0; idx<trainMatrices.length; idx++)
             {
-                if(qIdx == idx) //leave-one-out cross validation
+                if(qIdx == idx) //for leave-one-out cross validation
                     continue;
 
-                double sim = Similarity.GMED(trainMatrices[idx], query);
+                GridMatrix base = trainMatrices[idx];
+
+                double sim = Similarity.GMED(base, query);
                 if(sim < minDist)
                 {
                     minDist = sim;
-                    predictLabel = trainMatrices[idx].getLabel();
+                    predictLabel = base.getLabel();
                 }
             }
 
@@ -101,6 +107,26 @@ public class Validation {
         for(int idx=0; idx<databases.length; idx++)
         {
             double sim = Similarity.GMED(databases[idx], query);
+            if(sim < minDist)
+            {
+                minDist = sim;
+                predictLabelList.clear();
+                predictLabelList.add(databases[idx].getLabel());
+            }
+            else if(sim == minDist)
+                predictLabelList.add(databases[idx].getLabel());
+        }
+
+        return predictLabelList;
+    }
+
+    public static ArrayList<Integer> searchListByGMDTW(GridMatrix[] databases, GridMatrix query)
+    {
+        double minDist = Double.MAX_VALUE;
+        ArrayList<Integer> predictLabelList = new ArrayList<>();
+        for(int idx=0; idx<databases.length; idx++)
+        {
+            double sim = Similarity.GMDTW(databases[idx], query);
             if(sim < minDist)
             {
                 minDist = sim;

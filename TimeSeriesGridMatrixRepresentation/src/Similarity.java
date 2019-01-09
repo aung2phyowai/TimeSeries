@@ -4,6 +4,7 @@ import struct.GridMatrix;
  * Created by jun on 2019-01-04.
  */
 public class Similarity {
+    //matrix-based Euclidean distance
     public static double GMED(GridMatrix m1, GridMatrix m2)
     {
         double sum = 0;
@@ -22,6 +23,7 @@ public class Similarity {
         return Math.sqrt(sum);
     }
 
+    //matrix-based Dynamic Time Warping
     public static double GMDTW(GridMatrix m1, GridMatrix m2)
     {
         int[][] matrix1 = m1.matrix;
@@ -48,6 +50,7 @@ public class Similarity {
         return distanceMarix[matrix1.length-1][matrix2.length-1];
     }
 
+    //standard Euclidean Distance
     public static double ED(int[] a, int[] b)
     {
         int sum = 0;

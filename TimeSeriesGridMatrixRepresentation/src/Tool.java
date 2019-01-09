@@ -64,6 +64,7 @@ public class Tool {
         return ans;
     }
 
+    //Feature scaling Normalization : x' = (x-min(x))/(max(x)-min(x))
     public static  ArrayList<PointTra> minmaxNormalize(ArrayList<PointTra> datasets)
     {
         for(int i=0; i<datasets.size(); i++)
@@ -92,38 +93,4 @@ public class Tool {
         }
         return datasets;
     }
-
-    /*
-    public static  ArrayList<PointTra> minmaxNormalize(ArrayList<PointTra> datasets)
-    {
-        double max = Double.MIN_VALUE;
-        double min = Double.MAX_VALUE;
-        for(int i=0; i<datasets.size(); i++)
-        {
-            PointTra ts = datasets.get(i);
-            for(int j=0; j<ts.size(); j++)
-            {
-                double x = ts.get(j).getX();
-                if (max < x)
-                    max = x;
-                if (min > x)
-                    min = x;
-            }
-        }
-
-        double range = max-min;
-        for(int i=0; i<datasets.size(); i++)
-        {
-            PointTra ts = datasets.get(i);
-            for(int j=0; j<ts.size(); j++)
-            {
-                double x = ts.get(j).getX();
-                ts.get(j).setX((x-min)/range);
-            }
-        }
-
-        return datasets;
-    }
-    */
-
 }
