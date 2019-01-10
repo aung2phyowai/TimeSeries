@@ -1,5 +1,10 @@
+package Experiments;
+
+import GridBasedTimeSeries.Grid;
 import struct.GridMatrix;
 import struct.PointTra;
+import utils.Tool;
+import utils.Validation;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,10 +37,10 @@ public class Exp_GMED {
             File fileTest=new File(fileName	 + "_TEST.csv");
 
             if (!(fileTRAIN.exists() && fileTest.exists())) continue;
-            HashMap<String,Object> trainData=Tool.readData(fileName + "_TRAIN.csv");
+            HashMap<String,Object> trainData= Tool.readData(fileName + "_TRAIN.csv");
             HashMap<String,Object> testData = Tool.readData(fileName + "_TEST.csv");
             int CLASS_NUM=(int) trainData.get("CLASS_NUM");//number of classes
-            ArrayList<PointTra> trainOrg=(ArrayList<PointTra>) trainData.get("traData");//read original train dataset
+            ArrayList<PointTra> trainOrg=(ArrayList<PointTra>) trainData.get("traData");//read original trainForMatrix dataset
             ArrayList<PointTra> testOrg=(ArrayList<PointTra>) testData.get("traData");	//read original test dataset
 
             trainOrg = Tool.minmaxNormalize(trainOrg); //conduct min_max normalization
@@ -45,25 +50,24 @@ public class Exp_GMED {
             System.out.println("m : " + gm.m + " n : " + gm.n);
             GridMatrix[] trainMatrices = gm.dataset2Matrices(trainOrg);
             GridMatrix[] testMatrices = gm.dataset2Matrices(testOrg);
-            double errorRate = Validation.LOOCV(trainMatrices);
+            double errorRate = Validation.LOOCV_Matrix(trainMatrices);
             System.out.println("GMED Train Error_Rate : " + errorRate);
-            errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMED");
+            errorRate = Validation.oneNNClassificationErrorRate_Matrix(trainMatrices, testMatrices, "GMED");
             System.out.println("GMED Test Error_Rate : " + errorRate);
-            errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMDTW");
+            errorRate = Validation.oneNNClassificationErrorRate_Matrix(trainMatrices, testMatrices, "GMDTW");
             System.out.println("GMDTW Test Error_Rate : " + errorRate);
 
 
-            gm.train(trainOrg);
+            gm.trainForMatrix(trainOrg);
             System.out.println("m : " + gm.m + " n : " + gm.n);
             trainMatrices = gm.dataset2Matrices(trainOrg);
             testMatrices = gm.dataset2Matrices(testOrg);
-            errorRate = Validation.LOOCV(trainMatrices);
+            errorRate = Validation.LOOCV_Matrix(trainMatrices);
             System.out.println("GMED Train Error_Rate : " + errorRate);
-            errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMED");
+            errorRate = Validation.oneNNClassificationErrorRate_Matrix(trainMatrices, testMatrices, "GMED");
             System.out.println("GMED Test Error_Rate : " + errorRate);
-            errorRate = Validation.oneNNClassificationErrorRate(trainMatrices, testMatrices, "GMDTW");
+            errorRate = Validation.oneNNClassificationErrorRate_Matrix(trainMatrices, testMatrices, "GMDTW");
             System.out.println("GMDTW Test Error_Rate : " + errorRate);
-
         }
     }
 }

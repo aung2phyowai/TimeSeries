@@ -1,6 +1,12 @@
+package Experiments;
+
+import GridBasedTimeSeries.Grid;
 import struct.GridMatrix;
 import struct.Point;
 import struct.PointTra;
+import struct.SetTS;
+import utils.Similarity;
+import utils.Tool;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,9 +14,9 @@ import java.util.ArrayList;
 
 /**
  * Created by jun on 2019-01-07.
- * Toy Example of Similarity measure for time series data classification using grid representation and matrix distance
+ * Toy Example of utils.Similarity measure for time series data classification using grid representation and matrix distance
  */
-public class Toy_Sample {
+public class EXP_ToySample {
     public static void run() throws IOException
     {
         ArrayList<PointTra> SampleDataset = new ArrayList<PointTra>();
@@ -49,9 +55,15 @@ public class Toy_Sample {
         System.out.println("Y Matrix :");
         trainMatrices[1].print();
 
+        SetTS[] trainSets = gm.dataset2Set(SampleDataset);
+        System.out.print("X Set :");
+        trainSets[0].print();
+        System.out.print("Y Set :");
+        trainSets[1].print();
+
         System.out.println("GMED : "+ Similarity.GMED(trainMatrices[0], trainMatrices[1]));
         System.out.println("GMDTW : "+ Similarity.GMDTW(trainMatrices[0], trainMatrices[1]));
-
+        System.out.println("Jaccard :" + Similarity.JaccardDist(trainSets[0], trainSets[1]));
     }
 
 }

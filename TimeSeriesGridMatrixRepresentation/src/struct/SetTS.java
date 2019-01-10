@@ -1,20 +1,22 @@
 package struct;
 
-/**
- * Created by jun on 2019-01-04.
- */
-public class GridMatrix
-{
-    public int[][] matrix;
-    int label;
-    int m;
-    int n;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
-    public GridMatrix(int m, int n, int label)
+/**
+ * Created by jun on 2019-01-09.
+ * GridBasedTimeSeries.Grid based set representation of Time-series
+ */
+public class SetTS extends ArrayList<Integer> {
+    int label; // label of original time series
+    int m; //number of rows
+    int n; //number of columns
+
+    public SetTS(int m, int n, int label)
     {
         this.m = m;
         this.n = n;
-        this.matrix =new int[m][n];
         this.label = label;
     }
 
@@ -26,6 +28,8 @@ public class GridMatrix
         double width = (double)T/n;
         //double height = Math.round((1.0/m)*100)/100.0;
         //double width =  Math.round(((double)T/n)*100)/100.0;
+
+        TreeSet<Integer> trajectorySet=new TreeSet<Integer>();
 
         for(int idx=0; idx<ts.size(); idx++)
         {
@@ -42,8 +46,12 @@ public class GridMatrix
             else
                 j = (int)(t/width);
 
+            trajectorySet.add(i*n+j+1);
+        }
 
-            matrix[i][j]++;
+        for(Iterator<Integer> it = trajectorySet.iterator(); it.hasNext();)
+        {
+            this.add(it.next());
         }
     }
 
@@ -52,13 +60,10 @@ public class GridMatrix
         return this.label;
     }
 
-    public void print()
+    public void print() //print set
     {
-        for (int i=0; i<matrix.length; i++)
-        {
-            for(int j=0; j<matrix[i].length; j++)
-                System.out.print(matrix[i][j]+ " ");
-            System.out.println();
-        }
+        for(int s : this)
+            System.out.print(s + " ");
+        System.out.println();
     }
 }

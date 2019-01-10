@@ -1,9 +1,18 @@
+package utils;
+
 import struct.GridMatrix;
+import struct.SetTS;
+
+import java.util.ArrayList;
 
 /**
  * Created by jun on 2019-01-04.
  */
 public class Similarity {
+    public static final String JACCARD_DISTANCE = "Jaccard";
+    public static final String GMED = "GMED";
+    public static final String GMDTW = "GMDTW";
+
     //matrix-based Euclidean distance
     public static double GMED(GridMatrix m1, GridMatrix m2)
     {
@@ -60,5 +69,40 @@ public class Similarity {
         }
 
         return Math.sqrt(sum);
+    }
+
+    public static double JaccardDist(SetTS t1, SetTS t2)
+    {
+        double dist = 2;
+
+        double intersection = LinearIntersection(t1, t2, dist);
+        dist = 1 - intersection/(t1.size() + t2.size() - intersection);
+
+        return dist;
+    }
+
+    public static int LinearIntersection(ArrayList<Integer> a, ArrayList<Integer> b,
+                                  double minDist) {
+        int p = 0, q = 0, ans = 0;
+        int sizeA = a.size();
+        int sizeB = b.size();
+        double len = sizeA + sizeB;
+        double thre = len * (1.0 - minDist) / (2.0 - minDist);
+        while (p < a.size() && q < b.size()) {
+            if (a.get(p) < b.get(q))
+                p++;
+            else if (a.get(p) > b.get(q))
+                q++;
+            else {
+                // ans.add(a.get(p));//
+                ans += 1;
+                p++;
+                q++;
+                if ((ans + sizeA - p <= thre) || (ans + sizeB - q <= thre)) {
+                    return 0;
+                }
+            }
+        }
+        return ans;
     }
 }
