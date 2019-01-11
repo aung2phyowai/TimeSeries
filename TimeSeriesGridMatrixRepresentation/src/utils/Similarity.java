@@ -1,6 +1,7 @@
 package utils;
 
 import struct.GridMatrix;
+import struct.PointTra;
 import struct.SetTS;
 
 import java.util.ArrayList;
@@ -71,6 +72,61 @@ public class Similarity {
         return Math.sqrt(sum);
     }
 
+    //standard Euclidean Distance
+    public static double ED(double[] a, double[] b)
+    {
+        double sum = 0;
+        for(int i=0; i<a.length; i++)
+        {
+            sum += Math.pow(a[i]-b[i], 2);
+        }
+
+        return Math.sqrt(sum);
+    }
+
+    //standard Euclidean Distance
+    public static double ED(PointTra a, PointTra b)
+    {
+        double sum = 0;
+        for(int i=0; i<a.size(); i++)
+        {
+            sum += Math.pow(a.get(i).getX()-b.get(i).getX(), 2);
+        }
+
+        return Math.sqrt(sum);
+    }
+
+    //weighted Euclidean Distance
+    public static double WeightedED(double[] t1, double[] t2, int m, int n)
+    {
+        return Math.sqrt((double)n/m)*ED(t1, t2);
+    }
+
+    //standard Dynamic Time warping
+    public static double DTW(PointTra t1, PointTra t2)
+    {
+        double[][] distanceMatrix = new double[t1.size()][t2.size()];
+
+        for(int i=0; i<distanceMatrix.length; i++)
+        {
+            for (int j=0; j<distanceMatrix[i].length; j++)
+            {
+                double d = Math.pow(t1.get(i).getX()-t2.get(j).getX(), 2);
+                if(i==0 && j==0)
+                    distanceMatrix[i][j] = d;
+                else if(i==0)
+                    distanceMatrix[i][j] = d + distanceMatrix[i][j-1];
+                else if(j==0)
+                    distanceMatrix[i][j] = d + distanceMatrix[i-1][j];
+                else
+                    distanceMatrix[i][j] = d + Math.min(Math.min(distanceMatrix[i-1][j-1], distanceMatrix[i-1][j]), distanceMatrix[i][j-1]);
+            }
+        }
+
+        return distanceMatrix[t1.size()-1][t2.size()-1];
+    }
+
+    //Jaccard Distance (1-Jaccard Similarity)
     public static double JaccardDist(SetTS t1, SetTS t2)
     {
         double dist = 2;

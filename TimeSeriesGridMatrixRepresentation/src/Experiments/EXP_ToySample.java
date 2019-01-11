@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by jun on 2019-01-07.
  * Toy Example of utils.Similarity measure for time series data classification using grid representation and matrix distance
  */
-public class EXP_ToySample {
+public class Exp_ToySample {
     public static void run() throws IOException
     {
         ArrayList<PointTra> SampleDataset = new ArrayList<PointTra>();
@@ -34,7 +34,7 @@ public class EXP_ToySample {
         SampleDataset.add(X);
         SampleDataset.add(Y);
 
-        SampleDataset = Tool.minmaxNormalize(SampleDataset); //conduct min_max normalization
+        SampleDataset = Tool.featureScaling(SampleDataset); //conduct min_max normalization
 
         System.out.println("normalized X");
         for(int i=0; i<X.size(); i++)

@@ -67,7 +67,7 @@ public class Tool {
     }
 
     //Feature scaling Normalization : x' = (x-min(x))/(max(x)-min(x))
-    public static  ArrayList<PointTra> minmaxNormalize(ArrayList<PointTra> datasets)
+    public static  ArrayList<PointTra> featureScaling(ArrayList<PointTra> datasets)
     {
         for(int i=0; i<datasets.size(); i++)
         {

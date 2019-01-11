@@ -1,10 +1,8 @@
 package Experiments;
 
-import GridBasedTimeSeries.Grid;
+import struct.PAA;
 import struct.PointTra;
-import struct.SetTS;
 import utils.Tool;
-import utils.Validation;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,9 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by jun on 2019-01-09.
+ * Created by jun on 2019-01-10.
  */
-public class Exp_STS3 {
+public class Exp_PAA {
     public static void run() throws IOException
     {
         //String dirName = "../Datasets/UCR_Sample";
@@ -43,18 +41,17 @@ public class Exp_STS3 {
             ArrayList<PointTra> trainOrg=(ArrayList<PointTra>) trainData.get("traData");//read original trainForMatrix dataset
             ArrayList<PointTra> testOrg=(ArrayList<PointTra>) testData.get("traData");	//read original test dataset
 
-            trainOrg = Tool.featureScaling(trainOrg); //conduct min_max normalization
-            testOrg = Tool.featureScaling(testOrg); //conduct min_max normalization
+            //trainOrg = Tool.featureScaling(trainOrg); //conduct min_max normalization
+            //testOrg = Tool.featureScaling(testOrg); //conduct min_max normalization
 
-            Grid gm = new Grid();
-            gm.trainForSet(trainOrg);
-            System.out.println("m : " + gm.m + " n : " + gm.n);
-            SetTS[] trainSets = gm.dataset2Set(trainOrg);
-            SetTS[] testSets= gm.dataset2Set(testOrg);
-            double errorRate = Validation.LOOCV_Set(trainSets);
-            System.out.println("STS3 Train Error_Rate : " + errorRate);
-            errorRate = Validation.oneNNClassificationErrorRate_Set(trainSets, testSets);
-            System.out.println("STS3 Test Error_Rate : " + errorRate);
+            int n = PAA.train(trainOrg);
+            System.out.println("n :" + n);
+            PAA[] trainPAAs = PAA.dataset2PAAs(trainOrg, n);
+            PAA[] testPAAS = PAA.dataset2PAAs(testOrg, n);
+            //double errorRate = PAA.LOOCV(trainPAAs);
+            //System.out.println("PAA Train Error_Rate : " + errorRate);
+            double errorRate = PAA.oneNNClassificationErrorRate(trainPAAs, testPAAS);
+            System.out.println("PAA Test Error_Rate : " + errorRate);
         }
     }
 }

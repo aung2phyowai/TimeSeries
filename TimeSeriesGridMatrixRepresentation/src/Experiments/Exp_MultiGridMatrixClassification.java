@@ -42,8 +42,8 @@ public class Exp_MultiGridMatrixClassification {
             ArrayList<PointTra> trainOrg=(ArrayList<PointTra>) trainData.get("traData");//read original trainForMatrix dataset
             ArrayList<PointTra> testOrg=(ArrayList<PointTra>) testData.get("traData");	//read original test dataset
 
-            trainOrg = Tool.minmaxNormalize(trainOrg); //conduct min_max normalization
-            testOrg = Tool.minmaxNormalize(testOrg); //conduct min_max normalization
+            trainOrg = Tool.featureScaling(trainOrg); //conduct min_max normalization
+            testOrg = Tool.featureScaling(testOrg); //conduct min_max normalization
 
             //generate trainForMatrix error rate threshold
             ArrayList<Double> thresholdList = new ArrayList<>();

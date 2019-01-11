@@ -1,6 +1,6 @@
 package GridBasedTimeSeries;
 
-import Experiments.EXP_ToySample;
+import utils.Representation;
 
 import java.io.IOException;
 
@@ -9,9 +9,13 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException{
-        //EXP_ToySample.run();
+        //Exp_ToySample.run();
         //Experiments.Exp_GMED.run();
         //Experiments.Exp_MultiGridMatrixClassification.run();
-        Experiments.Exp_STS3.run();
+        //Experiments.Exp_STS3.run();
+        //Experiments.Exp_MultiGridSetClassification.run();
+        //Experiments.Exp_PAA.run();
+        //Experiments.Exp_ED.run();
+        //Experiments.Exp_DTW.run();
     }
 }
