@@ -16,6 +16,8 @@ public class Main {
         //Experiments.Exp_MultiGridSetClassification.run();
         //Experiments.Exp_PAA.run();
         //Experiments.Exp_ED.run();
-        //Experiments.Exp_DTW.run();
+
+        Experiments.Exp_DTW.run();
+
     }
 }

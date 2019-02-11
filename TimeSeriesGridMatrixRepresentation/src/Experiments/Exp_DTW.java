@@ -57,7 +57,7 @@ public class Exp_DTW {
                 {
                     PointTra base = trainOrg.get(idx);
 
-                    double sim = Similarity.DTW(query, base);
+                    double sim = Similarity.DTW_constraint(query, base, 0.1);
                     if(sim < minDist)
                     {
                         minDist = sim;

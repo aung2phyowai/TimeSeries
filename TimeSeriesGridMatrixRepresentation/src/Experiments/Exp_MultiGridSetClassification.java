@@ -23,7 +23,8 @@ public class Exp_MultiGridSetClassification {
         File[] files = dir.listFiles();
 
         for (File file : files) {
-            String[] fileList = {"synthetic_control", "Gun_Point", "CBF", "FaceAll", "OSULeaf", "SwedishLeaf", "50words", "Trace", "Two_Patterns", "wafer", "FaceFour", "Lighting2", "Lighting7", "ECG200", "Adiac", "yoga", "FISH", "Plane", "Car", "Beef", "Coffee", "OliveOil"};
+            String[] fileList = {"50words", "Adiac", "Cricket_X", "Cricket_Y", "Cricket_Z", "ECG200", "ECG5000", "ElectricDevices", "FaceAll", "FacesUCR", "FISH", "FordB", "HandOutlines", "NonInvasiveFatalECG_Thorax1", "OSULeaf", "ProximalPhalanxTW", "SmallKitchenAppliances", "StarLightCurves", "SwedishLeaf", "synthetic_control", "Trace", "Two_Patterns", "uWaveGestureLibrary_Z", "wafer", "yoga"};
+            //String[] fileList = {"synthetic_control", "Gun_Point", "CBF", "FaceAll", "OSULeaf", "SwedishLeaf", "50words", "Trace", "Two_Patterns", "wafer", "FaceFour", "Lighting2", "Lighting7", "ECG200", "Adiac", "yoga", "FISH", "Plane", "Car", "Beef", "Coffee", "OliveOil"};
             List<String> list = Arrays.asList(fileList);
             if(!list.contains(file.getName())) continue;
             System.out.println(file.getName()); //print file name
@@ -108,7 +109,7 @@ public class Exp_MultiGridSetClassification {
                 if(predictLabel != testOrg.get(q_idx).getCla())
                     errorCount++;
             }
-            System.out.println("MultiGrid STS3 Error rate : " + (double)errorCount/predictCount);
+            System.out.println("MultiGrid STS3 Error rate : " + Math.round(((double)errorCount/predictCount)*1000)/1000.0);
         }
     }
 }

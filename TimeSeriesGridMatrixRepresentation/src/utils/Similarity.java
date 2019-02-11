@@ -126,6 +126,55 @@ public class Similarity {
         return distanceMatrix[t1.size()-1][t2.size()-1];
     }
 
+    //Dynamic Time warping with warping window size constraints
+    public static double DTW_constraint(PointTra t1, PointTra t2, double constraints)
+    {
+        int windowSize = (int)(t1.size() * constraints);
+
+        double[][] distanceMatrix = new double[t1.size()][t2.size()];
+
+        for(int i=0; i<distanceMatrix.length; i++)
+        {
+            for (int j=0; j<distanceMatrix[i].length; j++)
+            {
+                if(Math.abs(i-j) > windowSize)
+                    continue;
+
+                double d = Math.pow(t1.get(i).getX()-t2.get(j).getX(), 2);
+
+                if(i==0 && j==0)
+                    distanceMatrix[i][j] = d;
+                else if(i==0)
+                    distanceMatrix[i][j] = d + distanceMatrix[i][j-1];
+                else if(j==0)
+                    distanceMatrix[i][j] = d + distanceMatrix[i-1][j];
+                else
+                {
+                    if(i>j && i-(j-1) > windowSize)
+                        distanceMatrix[i][j] = d + Math.min(distanceMatrix[i-1][j-1], distanceMatrix[i-1][j]);
+                    else if(i<j && j-(i-1) > windowSize)
+                        distanceMatrix[i][j] = d + Math.min(distanceMatrix[i-1][j-1], distanceMatrix[i][j-1]);
+                    else
+                        distanceMatrix[i][j] = d + Math.min(Math.min(distanceMatrix[i-1][j-1], distanceMatrix[i-1][j]), distanceMatrix[i][j-1]);
+                }
+            }
+        }
+
+        return distanceMatrix[t1.size()-1][t2.size()-1];
+    }
+
+    /*
+    public static double LB_Improved()
+    {
+
+    }
+
+    public static double LB_Keogh()
+    {
+
+    }
+    */
+
     //Jaccard Distance (1-Jaccard Similarity)
     public static double JaccardDist(SetTS t1, SetTS t2)
     {

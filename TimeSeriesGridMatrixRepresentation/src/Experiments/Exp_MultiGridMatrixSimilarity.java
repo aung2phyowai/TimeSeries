@@ -10,12 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static sun.misc.Version.print;
-
 /**
- * Created by jun on 2019-01-04.
+ * Created by jun on 2019-01-16.
  */
-public class Exp_MultiGridMatrixClassification {
+public class Exp_MultiGridMatrixSimilarity {
     public static void run() throws IOException
     {
         //String dirName = "../Datasets/UCR_Sample";
@@ -112,44 +110,6 @@ public class Exp_MultiGridMatrixClassification {
                     errorCount++;
             }
             System.out.println("MultiGrid GMED Error rate : " + Math.round(((double)errorCount/predictCount)*1000)/1000.0);
-
-            //conduct 1-NN classification and get error rate by GMDTW
-            predictCount = 0;
-            errorCount = 0;
-            for(int q_idx=0; q_idx<testOrg.size(); q_idx++)
-            {
-                Map<Integer, Double> pointDict = new HashMap<Integer, Double>();
-
-                for(int g_idx=0; g_idx<m; g_idx++)
-                {
-                    Grid grid = grids[g_idx];
-                    GridMatrix queryGridMatrix = grid.ts2Matrix(testOrg.get(q_idx));
-
-                    ArrayList<Integer> predictLabel = Validation.searchListByGMDTW(grid.getTrainMatrices(), queryGridMatrix);
-
-                    for(int label: predictLabel)
-                    {
-                        double point = 1.0/predictLabel.size();
-                        pointDict.put(label, pointDict.getOrDefault(label, 0d) + point);
-                    }
-                }
-
-                double maxPoint = Double.MIN_VALUE;
-                int predictLabel = -1;
-                for(Integer label: pointDict.keySet())
-                {
-                    double point = pointDict.getOrDefault(label, 0d);
-                    if(maxPoint < point)
-                    {
-                        maxPoint = point;
-                        predictLabel = label;
-                    }
-                }
-                predictCount++;
-                if(predictLabel != testOrg.get(q_idx).getCla())
-                    errorCount++;
-            }
-            System.out.println("MultiGrid GMDTW Error rate : " + Math.round(((double)errorCount/predictCount)*1000)/1000.0);
         }
     }
 }
